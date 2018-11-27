@@ -20,7 +20,7 @@ describe "Merchants API" do
     expect(item["id"]).to eq(merchant.id)
     expect(item["name"]).to eq(merchant.name)
   end
-  it 'finds one specific merchant based on find parameter' do
+  xit 'finds one specific merchant based on find parameter' do
     merchants = create_list(:merchant, 3)
     first_merch = merchants[0]
 
