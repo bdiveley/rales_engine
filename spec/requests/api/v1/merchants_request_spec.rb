@@ -6,15 +6,14 @@ describe "Merchants API" do
 
     get '/api/v1/merchants'
     merchants = JSON.parse(response.body)
-
     expect(response).to be_successful
-    expect(merchants.count).to eq(5)
+    expect(merchants["data"].count).to eq(5)
   end
   it 'sends one merchant' do
     merchant = create(:merchant)
 
     get "/api/v1/merchants/#{merchant.id}"
-    item = JSON.parse(response.body)
+    item = JSON.parse(response.body)["data"]["attributes"]
 
     expect(response).to be_successful
     expect(item["id"]).to eq(merchant.id)
@@ -26,7 +25,7 @@ describe "Merchants API" do
     second_merch = merchants[1]
 
     get "/api/v1/merchants/find?name=#{first_merch.name}"
-    merchant = JSON.parse(response.body)
+    merchant = JSON.parse(response.body)["data"]["attributes"]
 
     expect(response).to be_successful
     expect(merchant["id"]).to eq(first_merch.id)
@@ -38,7 +37,7 @@ describe "Merchants API" do
     merchant = Merchant.create(name: "bailey diveley")
 
     get "/api/v1/merchants/find?name=Bailey Diveley"
-    merchant_found = JSON.parse(response.body)
+    merchant_found = JSON.parse(response.body)["data"]["attributes"]
 
     expect(response).to be_successful
     expect(merchant_found["id"]).to eq(merchant.id)
@@ -50,7 +49,7 @@ describe "Merchants API" do
     second_merch = merchants[1]
 
     get "/api/v1/merchants/find?id=#{first_merch.id}"
-    merchant = JSON.parse(response.body)
+    merchant = JSON.parse(response.body)["data"]["attributes"]
 
     expect(response).to be_successful
     expect(merchant["id"]).to eq(first_merch.id)
@@ -63,7 +62,7 @@ describe "Merchants API" do
     second_merch = create(:merchant, created_at: '2012-03-27 14:53:59 UTC')
 
     get "/api/v1/merchants/find?created_at=#{first_merch.created_at}"
-    merchant = JSON.parse(response.body)
+    merchant = JSON.parse(response.body)["data"]["attributes"]
 
     expect(response).to be_successful
     expect(merchant["id"]).to eq(first_merch.id)
@@ -76,7 +75,7 @@ describe "Merchants API" do
     second_merch = create(:merchant, updated_at: '2012-03-27 14:53:58 UTC')
 
     get "/api/v1/merchants/find?updated_at=#{first_merch.updated_at}"
-    merchant = JSON.parse(response.body)
+    merchant = JSON.parse(response.body)["data"]["attributes"]
 
     expect(response).to be_successful
     expect(merchant["id"]).to eq(first_merch.id)
@@ -89,8 +88,9 @@ describe "Merchants API" do
     second_merch = create(:merchant, name: "Bailey")
 
     get "/api/v1/merchants/find_all?name=#{first_merch.name}"
-    first_response = JSON.parse(response.body)[0]
-    second_response = JSON.parse(response.body)[1]
+
+    first_response = JSON.parse(response.body)["data"][0]["attributes"]
+    second_response = JSON.parse(response.body)["data"][1]["attributes"]
 
     expect(response).to be_successful
     expect(first_response["id"]).to eq(first_merch.id)
@@ -103,7 +103,7 @@ describe "Merchants API" do
     second_merch = create(:merchant)
 
     get "/api/v1/merchants/find_all?id=#{first_merch.id}"
-    first_response = JSON.parse(response.body)[0]
+    first_response = JSON.parse(response.body)["data"][0]["attributes"]
 
     expect(response).to be_successful
     expect(first_response["id"]).to eq(first_merch.id)
@@ -114,8 +114,8 @@ describe "Merchants API" do
     second_merch = create(:merchant, created_at: '2012-03-27 14:53:58 UTC', updated_at: '2012-03-27 14:53:58 UTC')
 
     get "/api/v1/merchants/find_all?created_at=#{first_merch.created_at}"
-    first_response = JSON.parse(response.body)[0]
-    second_response = JSON.parse(response.body)[1]
+    first_response = JSON.parse(response.body)["data"][0]["attributes"]
+    second_response = JSON.parse(response.body)["data"][1]["attributes"]
 
     expect(response).to be_successful
     expect(first_response["id"]).to eq(first_merch.id)
@@ -124,8 +124,8 @@ describe "Merchants API" do
     expect(second_response["name"]).to eq(second_merch.name)
 
     get "/api/v1/merchants/find_all?updated_at=#{first_merch.updated_at}"
-    first_response = JSON.parse(response.body)[0]
-    second_response = JSON.parse(response.body)[1]
+    first_response = JSON.parse(response.body)["data"][0]["attributes"]
+    second_response = JSON.parse(response.body)["data"][1]["attributes"]
 
     expect(response).to be_successful
     expect(first_response["id"]).to eq(first_merch.id)
@@ -140,7 +140,7 @@ describe "Merchants API" do
 
     get "/api/v1/merchants/random.json"
     merchant = JSON.parse(response.body)
-    
+
     expect(response).to be_successful
   end
 end
