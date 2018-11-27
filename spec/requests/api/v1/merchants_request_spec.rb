@@ -98,7 +98,7 @@ describe "Merchants API" do
     expect(second_response["id"]).to eq(second_merch.id)
     expect(second_response["name"]).to eq(second_merch.name)
   end
-  it 'finds all merchants based on id query without case sensitivity' do
+  it 'finds all merchants based on id query' do
     first_merch = create(:merchant)
     second_merch = create(:merchant)
 
@@ -108,5 +108,39 @@ describe "Merchants API" do
     expect(response).to be_successful
     expect(first_response["id"]).to eq(first_merch.id)
     expect(first_response["name"]).to eq(first_merch.name)
+  end
+  it 'finds all merchants based on created_at/updated_at query' do
+    first_merch = create(:merchant, created_at: '2012-03-27 14:53:58 UTC', updated_at: '2012-03-27 14:53:58 UTC')
+    second_merch = create(:merchant, created_at: '2012-03-27 14:53:58 UTC', updated_at: '2012-03-27 14:53:58 UTC')
+
+    get "/api/v1/merchants/find_all?created_at=#{first_merch.created_at}"
+    first_response = JSON.parse(response.body)[0]
+    second_response = JSON.parse(response.body)[1]
+
+    expect(response).to be_successful
+    expect(first_response["id"]).to eq(first_merch.id)
+    expect(first_response["name"]).to eq(first_merch.name)
+    expect(second_response["id"]).to eq(second_merch.id)
+    expect(second_response["name"]).to eq(second_merch.name)
+
+    get "/api/v1/merchants/find_all?updated_at=#{first_merch.updated_at}"
+    first_response = JSON.parse(response.body)[0]
+    second_response = JSON.parse(response.body)[1]
+
+    expect(response).to be_successful
+    expect(first_response["id"]).to eq(first_merch.id)
+    expect(first_response["name"]).to eq(first_merch.name)
+    expect(second_response["id"]).to eq(second_merch.id)
+    expect(second_response["name"]).to eq(second_merch.name)
+  end
+  it 'finds one random merchant' do
+    merchants = create_list(:merchant, 3)
+    first_merch = merchants[0]
+    second_merch = merchants[1]
+
+    get "/api/v1/merchants/random.json"
+    merchant = JSON.parse(response.body)
+    
+    expect(response).to be_successful
   end
 end
