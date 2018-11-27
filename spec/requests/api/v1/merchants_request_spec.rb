@@ -84,4 +84,29 @@ describe "Merchants API" do
     expect(merchant["id"]).not_to eq(second_merch.id)
     expect(merchant["name"]).not_to eq(second_merch.name)
   end
+  it 'finds all merchants based on name query without case sensitivity' do
+    first_merch = create(:merchant, name: "bailey")
+    second_merch = create(:merchant, name: "Bailey")
+
+    get "/api/v1/merchants/find_all?name=#{first_merch.name}"
+    first_response = JSON.parse(response.body)[0]
+    second_response = JSON.parse(response.body)[1]
+
+    expect(response).to be_successful
+    expect(first_response["id"]).to eq(first_merch.id)
+    expect(first_response["name"]).to eq(first_merch.name)
+    expect(second_response["id"]).to eq(second_merch.id)
+    expect(second_response["name"]).to eq(second_merch.name)
+  end
+  it 'finds all merchants based on id query without case sensitivity' do
+    first_merch = create(:merchant)
+    second_merch = create(:merchant)
+
+    get "/api/v1/merchants/find_all?id=#{first_merch.id}"
+    first_response = JSON.parse(response.body)[0]
+
+    expect(response).to be_successful
+    expect(first_response["id"]).to eq(first_merch.id)
+    expect(first_response["name"]).to eq(first_merch.name)
+  end
 end
