@@ -1,9 +1,9 @@
-require "csv"
+require 'csv'
 
 namespace :import do
-  task "customers": :environment do
-    CSV.foreach('db/csv/customers.csv') do |row|
-      Customer.create(row.to_hash)
+  task :data => :environment do
+    CSV.foreach('db/csv/merchants.csv', :headers => true, header_converters: :symbol) do |row|
+      Merchant.create(row.to_hash)
     end
   end
-end 
+end
