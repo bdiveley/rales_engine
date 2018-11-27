@@ -44,4 +44,44 @@ describe "Merchants API" do
     expect(merchant_found["id"]).to eq(merchant.id)
     expect(merchant_found["name"]).to eq(merchant.name)
   end
+  it 'finds one specific merchant based on id query' do
+    merchants = create_list(:merchant, 3)
+    first_merch = merchants[0]
+    second_merch = merchants[1]
+
+    get "/api/v1/merchants/find?id=#{first_merch.id}"
+    merchant = JSON.parse(response.body)
+
+    expect(response).to be_successful
+    expect(merchant["id"]).to eq(first_merch.id)
+    expect(merchant["name"]).to eq(first_merch.name)
+    expect(merchant["id"]).not_to eq(second_merch.id)
+    expect(merchant["name"]).not_to eq(second_merch.name)
+  end
+  it 'finds one specific merchant based on created_at query' do
+    first_merch = create(:merchant, created_at: '2012-03-27 14:53:58 UTC')
+    second_merch = create(:merchant, created_at: '2012-03-27 14:53:59 UTC')
+
+    get "/api/v1/merchants/find?created_at=#{first_merch.created_at}"
+    merchant = JSON.parse(response.body)
+
+    expect(response).to be_successful
+    expect(merchant["id"]).to eq(first_merch.id)
+    expect(merchant["name"]).to eq(first_merch.name)
+    expect(merchant["id"]).not_to eq(second_merch.id)
+    expect(merchant["name"]).not_to eq(second_merch.name)
+  end
+  it 'finds one specific merchant based on updated_at query' do
+    first_merch = create(:merchant, updated_at: '2012-03-27 14:53:59 UTC')
+    second_merch = create(:merchant, updated_at: '2012-03-27 14:53:58 UTC')
+
+    get "/api/v1/merchants/find?updated_at=#{first_merch.updated_at}"
+    merchant = JSON.parse(response.body)
+
+    expect(response).to be_successful
+    expect(merchant["id"]).to eq(first_merch.id)
+    expect(merchant["name"]).to eq(first_merch.name)
+    expect(merchant["id"]).not_to eq(second_merch.id)
+    expect(merchant["name"]).not_to eq(second_merch.name)
+  end
 end
