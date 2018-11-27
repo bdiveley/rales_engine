@@ -1,8 +1,14 @@
 class Api::V1::Merchants::SearchController < ApplicationController
 
   def show
-    # render json: Merchant.find_by(name: params["name"])
-    #the below is returning an array instead of the object itself
-    render json: Merchant.where("lower(name) = ?", params["name"].downcase)
+    if params[:name]
+      render json: Merchant.find_by("lower(name) = ?", params["name"].downcase)
+    # elsif params[:id]
+    #   render json: Merchant.find_by(id: params[:id].to_i)
+    # elsif params[:created_at]
+    #   render json: Merchant.find_by(id: params[:created_at])
+    # elsif params[:updated_at]
+    #   render json: Merchant.find_by(id: params[:updated_at])
+    end
   end
 end
