@@ -1,7 +1,11 @@
 class Api::V1::Merchants::SearchController < ApplicationController
 
   def show
-    render json: MerchantSerializer.new(Merchant.find_by(look_up_params))
+    unless look_up_params.empty?
+      render json: MerchantSerializer.new(Merchant.find_by(look_up_params))
+    else
+      render json: MerchantSerializer.new(Merchant.find_random)
+    end 
   end
 
   def index
