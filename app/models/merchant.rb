@@ -13,4 +13,8 @@ class Merchant < ApplicationRecord
     Merchant.select("merchants.*, sum(invoice_items.quantity*invoice_items.unit_price) AS revenue").joins(:invoices).joins("JOIN invoice_items ON invoice_items.invoice_id = invoices.id").joins("JOIN transactions ON transactions.invoice_id = invoices.id").where("transactions.result = ?", 'success').group("merchants.id").order("revenue DESC").limit(8)
   end
 
+#GET /api/v1/customers/:id/favorite_merchant returns a merchant where the customer has conducted the most successful transactions
+  def favorite_merchant
+  end
+
 end

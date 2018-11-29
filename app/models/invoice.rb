@@ -9,7 +9,7 @@ class Invoice < ApplicationRecord
 
 #GET /api/v1/items/:id/best_day returns the date with the most sales for the given item using the invoice date.
   def best_day
-    Invoice.select("invoices.created_at, sum(invoice_items.quantity) AS best_day").joins(:invoice_items).where("invoice_items.item_id = 1099").group("invoices.id").order("units desc, invoices.created_at desc").limit(1)
+    Invoice.select("invoices.created_at, sum(invoice_items.quantity) AS best_day").joins(:invoice_items).where("invoice_items.item_id = 1099").group("invoices.id").order("best_day desc, invoices.created_at desc").limit(1)
   end
 
 #GET /api/v1/merchants/:id/revenue returns the total revenue for that merchant across successful transactions
