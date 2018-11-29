@@ -14,16 +14,16 @@ class Invoice < ApplicationRecord
 
 #GET /api/v1/merchants/:id/revenue returns the total revenue for that merchant across successful transactions
   def total_revenue_by_merchant
-    Invoice.select("sum(invoice_items.quantity*invoice_items.unit_price) AS revenue").joins(:invoice_items, :transactions).group("invoice_items.id").where("transactions.result = ?", 'success').where("invoices.merchant_id = ?", 27).pluck("sum(invoice_items.quantity*invoice_items.unit_price) AS revenue").sum
+    Invoice.select("sum(invoice_items.quantity*invoice_items.unit_price) AS revenue").joins(:invoice_items, :transactions).group("invoice_items.id").merge(Transaction.successful).where("invoices.merchant_id = ?", 27).pluck("sum(invoice_items.quantity*invoice_items.unit_price) AS revenue").sum
   end
 
 #GET /api/v1/merchants/revenue?date=x returns the total revenue for date x across all merchants
   def total_revenue_by_date
-    Invoice.select("SUM(invoice_items.quantity*invoice_items.unit_price) AS revenue").joins(:invoice_items, :transactions).group("invoice_items.id").where("transactions.result = ?", 'success').where("cast(invoices.created_at AS text) Like '2012-03-16%'").pluck("SUM(invoice_items.quantity*invoice_items.unit_price) AS revenue").sum
+    Invoice.select("SUM(invoice_items.quantity*invoice_items.unit_price) AS revenue").joins(:invoice_items, :transactions).group("invoice_items.id").merge(Transaction.successful).where("cast(invoices.created_at AS text) Like '2012-03-16%'").pluck("SUM(invoice_items.quantity*invoice_items.unit_price) AS revenue").sum
   end
 
 #GET /api/v1/merchants/:id/revenue?date=x returns the total revenue for that merchant for a specific invoice date x
   def total_revenue_per_merchant_by_date
-    Invoice.select("SUM(invoice_items.quantity*invoice_items.unit_price) AS revenue").joins(:invoice_items, :transactions).group("invoices.id, invoices.merchant_id").where("transactions.result = ?", 'success').where("cast(invoices.created_at AS text) Like '2012-03-07%'").where("invoices.merchant_id = ?", 3)
+    Invoice.select("SUM(invoice_items.quantity*invoice_items.unit_price) AS revenue").joins(:invoice_items, :transactions).group("invoices.id, invoices.merchant_id").merge(Transaction.successful).where("cast(invoices.created_at AS text) Like '2012-03-07%'").where("invoices.merchant_id = ?", 3)
   end
 end
