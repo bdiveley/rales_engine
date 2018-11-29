@@ -15,6 +15,7 @@ class Merchant < ApplicationRecord
 
 #GET /api/v1/customers/:id/favorite_merchant returns a merchant where the customer has conducted the most successful transactions
   def favorite_merchant
+    Merchant.select("merchants.*, count(transactions.id) AS total").joins(:invoices).joins("JOIN transactions ON transactions.invoice_id = invoices.id").group(:id).where("invoices.customer_id = 80").where("transactions.result = ?", 'success').order("total desc").limit(1)
   end
 
 end
