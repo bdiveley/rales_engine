@@ -143,4 +143,17 @@ describe "Merchants API" do
 
     expect(response).to be_successful
   end
+  it 'displays all associated items' do
+    merch_1 = create(:merchant)
+    merch_2 = create(:merchant)
+    item_1 = create(:item, merchant: merch_1)
+    item_1 = create(:item, merchant: merch_1)
+    item_1 = create(:item, merchant: merch_2)
+
+    get "/api/v1/merchants/#{merch_1.id}/items"
+    merchants = JSON.parse(response.body)
+    binding.pry
+    expect(response).to be_successful
+
+  end
 end

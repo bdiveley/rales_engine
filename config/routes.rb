@@ -8,10 +8,10 @@ Rails.application.routes.draw do
       namespace :merchants do
         get '/find', to: 'search#show'
         get '/find_all', to: 'search#index'
-        get '/random.json', to: 'search#show'
+        get '/random', to: 'search#show'
+        get '/:id/items', to: 'items#show'
       end
       resources :merchants, only: [:index, :show]
     end
   end
-
 end
