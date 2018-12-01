@@ -58,8 +58,8 @@ describe 'Customers API' do
     expect(customer_found["id"]).to eq(customer.id)
     expect(customer_found["first_name"]).to eq(customer.first_name)
   end
-  xit 'finds one specific customer based on id query' do
-    customers = create_list(:merchant, 3)
+  it 'finds one specific customer based on id query' do
+    customers = create_list(:customer, 3)
     first_cust = customers[0]
     second_cust = customers[1]
 
@@ -158,4 +158,36 @@ describe 'Customers API' do
 
     expect(response).to be_successful
   end
+  it 'displays all associated invoices' do
+    cust_1 = create(:customer)
+    cust_2 = create(:customer)
+    merchant = create(:merchant)
+    invoice_1 = create(:invoice, merchant: merchant, customer: cust_1)
+    invoice_2 = create(:invoice, merchant: merchant, customer: cust_2)
+
+    get "/api/v1/customers/#{cust_1.id}/invoices"
+    invoices = JSON.parse(response.body)
+    return_invoice_1 = invoices["data"][0]
+    return_invoice_2 = invoices["data"][1]
+
+    expect(response).to be_successful
+    expect(invoices["data"].count).to eq(1)
+    expect(return_invoice_1["attributes"]["id"]).to eq(invoice_1.id)
+  end
+  # it 'displays all associated transactions' do
+  #     cust_1 = create(:customer)
+  #     cust_2 = create(:customer)
+  #     merchant = create(:merchant)
+  #     trans_1 = create(:invoice, merchant: merchant, customer: cust_1)
+  #     invoice_2 = create(:invoice, merchant: merchant, customer: cust_2)
+  #
+  #     get "/api/v1/customers/#{cust_1.id}/invoices"
+  #     invoices = JSON.parse(response.body)
+  #     return_invoice_1 = invoices["data"][0]
+  #     return_invoice_2 = invoices["data"][1]
+  #
+  #     expect(response).to be_successful
+  #     expect(invoices["data"].count).to eq(1)
+  #     expect(return_invoice_1["attributes"]["id"]).to eq(invoice_1.id)
+  #   end
 end
