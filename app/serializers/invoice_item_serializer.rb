@@ -1,4 +1,9 @@
-class InvoiceItemSerializer
+class Invoice_ItemSerializer
   include FastJsonapi::ObjectSerializer
-  attributes :quantity, :unit_price
+  attributes :id, :quantity
+
+  attribute :unit_price do |object|
+    object.unit_price / 100.00
+  end
+
 end
