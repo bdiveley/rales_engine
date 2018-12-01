@@ -7,6 +7,10 @@ class Invoice < ApplicationRecord
 
   validates_presence_of :status
 
+  def self.find_by_transaction(trans_id)
+    joins(:transactions).where("transactions.id = #{trans_id}").first
+  end
+  
 #GET /api/v1/items/:id/best_day returns the date with the most sales for the given item using the invoice date.
   def self.best_day(id_of_item)
     Invoice.select("invoices.created_at, sum(invoice_items.quantity) AS best_day").joins(:invoice_items).where("invoice_items.item_id = #{id_of_item}").group("invoices.id").order("best_day desc, invoices.created_at desc").limit(1)
