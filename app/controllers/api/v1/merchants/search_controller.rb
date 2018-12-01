@@ -5,7 +5,7 @@ class Api::V1::Merchants::SearchController < ApplicationController
       render json: MerchantSerializer.new(Merchant.find_by(look_up_params))
     else
       render json: MerchantSerializer.new(Merchant.find_random)
-    end 
+    end
   end
 
   def index

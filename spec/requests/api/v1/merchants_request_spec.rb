@@ -147,13 +147,34 @@ describe "Merchants API" do
     merch_1 = create(:merchant)
     merch_2 = create(:merchant)
     item_1 = create(:item, merchant: merch_1)
-    item_1 = create(:item, merchant: merch_1)
-    item_1 = create(:item, merchant: merch_2)
+    item_2 = create(:item, merchant: merch_1)
+    item_3 = create(:item, merchant: merch_2)
 
     get "/api/v1/merchants/#{merch_1.id}/items"
-    merchants = JSON.parse(response.body)
-    binding.pry
-    expect(response).to be_successful
+    items = JSON.parse(response.body)
+    return_item_1 = items["data"][0]
+    return_item_2 = items["data"][1]
 
+    expect(response).to be_successful
+    expect(items["data"].count).to eq(2)
+    expect(return_item_1["attributes"]["id"]).to eq(item_1.id)
+    expect(return_item_2["attributes"]["id"]).to eq(item_2.id)
+  end
+  it 'displays all associated invoices' do
+    merch_1 = create(:merchant)
+    merch_2 = create(:merchant)
+    customer = create(:customer)
+    invoice_1 = create(:invoice, merchant: merch_1, customer: customer)
+    invoice_2 = create(:invoice, merchant: merch_1, customer: customer)
+
+    get "/api/v1/merchants/#{merch_1.id}/invoices"
+    invoices = JSON.parse(response.body)
+    return_invoice_1 = invoices["data"][0]
+    return_invoice_2 = invoices["data"][1]
+
+    expect(response).to be_successful
+    expect(invoices["data"].count).to eq(2)
+    expect(return_invoice_1["attributes"]["id"]).to eq(invoice_1.id)
+    expect(return_invoice_2["attributes"]["id"]).to eq(invoice_2.id)
   end
 end
