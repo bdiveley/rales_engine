@@ -14,6 +14,6 @@ class Api::V1::Invoices::SearchController < ApplicationController
 
 private
   def look_up_params
-    params.permit(:id, :name, :status, :created_at, :updated_at)
+    params.permit(:id, :name, :status, :customer_id, :merchant_id, :created_at, :updated_at)
   end
 end

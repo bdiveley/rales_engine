@@ -14,6 +14,6 @@ class Api::V1::Transactions::SearchController < ApplicationController
 
 private
   def look_up_params
-    params.permit(:id, :credit_card_number, :credit_card_expiration_date, :result, :created_at, :updated_at)
+    params.permit(:id, :credit_card_number, :credit_card_expiration_date, :result, :invoice_id, :created_at, :updated_at)
   end
 end
