@@ -1,7 +1,10 @@
 class Api::V1::Items::SearchController < ApplicationController
 
   def show
-    unless look_up_params.empty?
+    if params[:unit_price]
+      pennies = params[:unit_price].to_f / 100
+      render json: ItemSerializer.new(Item.find_by(unit_price: pennies))
+    elsif !look_up_params.empty?
       render json: ItemSerializer.new(Item.find_by(look_up_params))
     else
       render json: ItemSerializer.new(Item.find_random)
@@ -9,7 +12,13 @@ class Api::V1::Items::SearchController < ApplicationController
   end
 
   def index
-    render json: ItemSerializer.new(Item.where(look_up_params))
+    if params[:unit_price]
+      binding.pry
+      pennies = params[:unit_price].to_f / 100
+      render json: ItemSerializer.new(Item.where(unit_price: pennies))
+    else
+      render json: ItemSerializer.new(Item.where(look_up_params))
+    end
   end
 
 private

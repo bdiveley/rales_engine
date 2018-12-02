@@ -1,7 +1,10 @@
 class Api::V1::InvoiceItems::SearchController < ApplicationController
 
   def show
-    unless look_up_params.empty?
+    if params[:unit_price]
+      pennies = params[:unit_price].to_f / 100
+      render json: Invoice_ItemSerializer.new(InvoiceItem.find_by(unit_price: pennies))
+    elsif !look_up_params.empty?
       render json: Invoice_ItemSerializer.new(InvoiceItem.find_by(look_up_params))
     else
       render json: Invoice_ItemSerializer.new(InvoiceItem.find_random)
@@ -9,7 +12,12 @@ class Api::V1::InvoiceItems::SearchController < ApplicationController
   end
 
   def index
-    render json: Invoice_ItemSerializer.new(InvoiceItem.where(look_up_params))
+    if params[:unit_price]
+      pennies = params[:unit_price].to_f / 100
+      render json: Invoice_ItemSerializer.new(InvoiceItem.where(unit_price: pennies))
+    else
+      render json: Invoice_ItemSerializer.new(InvoiceItem.where(look_up_params))
+    end
   end
 
 private
