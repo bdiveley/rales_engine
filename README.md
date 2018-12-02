@@ -1,35 +1,39 @@
 # README
 
-# Rales Engine (Add Description here)
+# Rales Engine
 
-We have built an online e-commerce platform to sell local artisan goods. Our site allows users to add items to a cart and check out to purchase them from merchants. Merchants may log in to purchase items, add items to their own inventories, enable and disable items, fulfill orders, and edit existing items available.  Admin users have access to change user status from merchants to regular users and vice versa, disable and enable users and merchants, have access to additional analytics, and cancel orders.
+Rales Engine is a program that delivers a variety of JSON-formatted data related to customers, merchants, items, invoices, invoice_items and transactions stored in a postsql database.  Accessible data includes endpoints for all table attributes, data filtered by URI query parameters, relationships between tables, and business logic.  Active Record and SQL are utilized to query the database for all business-logic related queries.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 From GitHub clone down repository using the following commands in terminal:
-* git clone git@github.com:jplao/little_shop_v2.git CHANGE THIS
-* cd little_shop_v2 CHANGE THIS
+* git clone git@github.com:bdiveley/rales_engine.git
+* cd rales_engine
 
 ### Prerequisites
 
-You will need Rails installed use version 5.1.6.  You will also use Ruby version 2.4.1
+You will need Rails installed. Use version 5.1.6.  You will also use Ruby version 2.4.1
 
 To check your version using terminal run: rails -v in the command line.
 If you have not installed rails, in terminal run: gem install rails -v 5.1 in the command line.
 
 ### Installing
 
-Open terminal and run these commands:
+From the root directory of the repo, run these commands:
 * bundle
 * bundle update
-* rake db:{drop,create,migrate,seed} ADD RAKE COMMAND TO GET CSV DATA
+* rake db:{drop,create,migrate}
+* rake import:data
 * rails s
 
-Open up a web browser (preferably Chrome)
+Open up a web browser
 
-Navigate to localhost:3000 (a landing page should be displayed)
+Navigate to localhost:3000/api/v1/...
+
+To gain access to all available URI pathways:
+From the terminal, type 'rake routes'
 
 ## Running the tests
 
@@ -38,9 +42,6 @@ Navigate to localhost:3000 (a landing page should be displayed)
 From terminal run: rspec
 
 After RSpec has completed, you should see all tests passing as GREEN.  Any tests that have failed or thrown an error will display RED.  Any tests that have been skipped will be displayed as YELLOW.
-
-## Deploying
-* ADD Deployment instructions
 
 ## Built With
 
