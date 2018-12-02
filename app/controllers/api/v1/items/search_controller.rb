@@ -2,7 +2,7 @@ class Api::V1::Items::SearchController < ApplicationController
 
   def show
     if params[:unit_price]
-      pennies = params[:unit_price].to_f / 100
+      pennies = price_conversion(params[:unit_price])
       render json: ItemSerializer.new(Item.find_by(unit_price: pennies))
     elsif !look_up_params.empty?
       render json: ItemSerializer.new(Item.find_by(look_up_params))
@@ -13,8 +13,7 @@ class Api::V1::Items::SearchController < ApplicationController
 
   def index
     if params[:unit_price]
-      binding.pry
-      pennies = params[:unit_price].to_f / 100
+      pennies = price_conversion(params[:unit_price])
       render json: ItemSerializer.new(Item.where(unit_price: pennies))
     else
       render json: ItemSerializer.new(Item.where(look_up_params))

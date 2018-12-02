@@ -178,22 +178,4 @@ describe "Merchants API" do
     expect(return_invoice_2["attributes"]["id"]).to eq(invoice_2.id)
   end
 
-  it 'displays all associated invoices' do
-    merch_1 = create(:merchant)
-    merch_2 = create(:merchant)
-    customer = create(:customer)
-    invoice_1 = create(:invoice, merchant: merch_1, customer: customer)
-    invoice_2 = create(:invoice, merchant: merch_1, customer: customer)
-    item = create(:item, unit_price: "75107", merchant: merch_1)
-
-    get "/api/v1/items/find_all?unit_price=#{item.unit_price}"
-    invoices = JSON.parse(response.body)
-    return_invoice_1 = invoices["data"][0]
-    return_invoice_2 = invoices["data"][1]
-
-    expect(response).to be_successful
-    expect(invoices["data"].count).to eq(2)
-    expect(return_invoice_1["attributes"]["id"]).to eq(invoice_1.id)
-    expect(return_invoice_2["attributes"]["id"]).to eq(invoice_2.id)
-  end
 end
