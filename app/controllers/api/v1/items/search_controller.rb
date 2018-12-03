@@ -5,7 +5,8 @@ class Api::V1::Items::SearchController < ApplicationController
       pennies = price_conversion(params[:unit_price])
       render json: ItemSerializer.new(Item.find_by(unit_price: pennies))
     elsif !look_up_params.empty?
-      render json: ItemSerializer.new(Item.find_by(look_up_params))
+      render json:
+      ItemSerializer.new(Item.order(id: :asc).find_by(look_up_params))
     else
       render json: ItemSerializer.new(Item.find_random)
     end
@@ -16,7 +17,7 @@ class Api::V1::Items::SearchController < ApplicationController
       pennies = price_conversion(params[:unit_price])
       render json: ItemSerializer.new(Item.where(unit_price: pennies))
     else
-      render json: ItemSerializer.new(Item.where(look_up_params))
+      render json: ItemSerializer.new(Item.where(look_up_params).order(id: :asc))
     end
   end
 

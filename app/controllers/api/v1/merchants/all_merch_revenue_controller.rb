@@ -7,6 +7,6 @@ class Api::V1::Merchants::AllMerchRevenueController < ApplicationController
   def show
     result = Invoice.total_revenue_by_date(params[:date])
     revenue = Revenue.new(result)
-    render json: RevenueSerializer.new(revenue)
+    render json: TotalRevenueSerializer.new(revenue)
   end
 end
