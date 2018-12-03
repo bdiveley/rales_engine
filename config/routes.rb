@@ -8,8 +8,10 @@ Rails.application.routes.draw do
         get '/find_all', to: 'search#index'
         get '/random', to: 'search#show'
         get '/most_revenue', to: "all_merch_revenue#index"
-        # get '/most_items', to: "business#index"
+        get '/most_items', to: "all_merch_items#index"
         get '/revenue', to: "all_merch_revenue#show"
+        get '/:id/revenue', to: "one_merch_revenue#show"
+        get '/:merchant_id/favorite_customer', to: "favorites#show"
       end
       resources :merchants, only: [:index, :show] do
         resources :items, only: [:index]
@@ -19,6 +21,7 @@ Rails.application.routes.draw do
         get '/find', to: 'search#show'
         get '/find_all', to: 'search#index'
         get '/random', to: 'search#show'
+        get '/:customer_id/favorite_merchant', to: "merchants/favorites#show"
       end
       resources :customers, only: [:index, :show] do
         resources :invoices, only: [:index]
@@ -28,6 +31,9 @@ Rails.application.routes.draw do
         get '/find', to: 'search#show'
         get '/find_all', to: 'search#index'
         get '/random', to: 'search#show'
+        get '/most_revenue', to: 'revenue#index'
+        get '/most_items', to: 'best#index'
+        get '/:id/best_day', to: 'best#show'
       end
       resources :items, only: [:index, :show] do
         resources :invoice_items, only: [:index]

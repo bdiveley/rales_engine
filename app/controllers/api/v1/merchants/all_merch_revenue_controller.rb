@@ -5,7 +5,6 @@ class Api::V1::Merchants::AllMerchRevenueController < ApplicationController
   end
 
   def show
-    #revenue isn't working becuase jsonapi needs an id
     result = Invoice.total_revenue_by_date(params[:date])
     revenue = Revenue.new(result)
     render json: RevenueSerializer.new(revenue)
