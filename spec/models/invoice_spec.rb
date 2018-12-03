@@ -33,7 +33,7 @@ RSpec.describe Invoice, type: :model do
       create(:transaction, result: 'failed', invoice: @inv_3)
     end
     it 'it returns date with most sales by item' do
-      date = Invoice.best_day(@item_1.id).first.created_at
+      date = Invoice.best_day(@item_1.id).created_at
 
       expect(date).to eq("Tue, 27 Mar 2012 14:53:58 UTC +00:00")
     end
