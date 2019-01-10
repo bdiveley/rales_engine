@@ -1,5 +1,7 @@
 require 'csv'
 
+root "welcome#index"
+
 namespace :import do
   task :data => :environment do
     CSV.foreach('db/csv/merchants.csv', :headers => true, header_converters: :symbol) do |row|
