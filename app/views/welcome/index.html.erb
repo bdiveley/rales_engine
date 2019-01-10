@@ -1,6 +1,14 @@
 <h1>Welcome to Sales Engine</h1>
 <h2>Available Endpoints listed below:</h2>
 
+All /find and /find_all endpoints can include the following additional parameters:
+  <ul>
+    <li>?id=1</li>
+    <li>?name=Williamson Group"</li>
+    <li>?created_at=2012-03-27 14:53:58 UTC#</li>
+    <li>?updated_at=2012-03-27 14:53:58 UTC#</li>
+  </ul>
+
 Merchants:
 <ul>
   <li><%= link_to "/api/v1/merchants", "/api/v1/merchants" %></li>
