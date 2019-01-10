@@ -1,5 +1,5 @@
-class WelcomeController < ApplicationController
+class WelcomeController < ActionController::Base
 
   def index
-  end 
+  end
 end
