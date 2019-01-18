@@ -30,10 +30,11 @@ From the root directory of the repo, run these commands:
 
 Open up a web browser
 
-Navigate to localhost:3000/api/v1/...
+Navigate to localhost:3000/.
 
-To gain access to all available URI pathways:
-From the terminal, type 'rake routes'
+The landing page for the application lists links to all available endpoints.
+
+![alt text](welcome_page.png)
 
 ## Running the tests
 
