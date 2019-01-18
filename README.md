@@ -34,7 +34,8 @@ Navigate to localhost:3000/.
 
 The landing page for the application lists links to all available endpoints.
 
-![alt text](welcome_page.png)
+![alt text](welcome_1.png)
+![alt text](welcome_2.png)
 
 ## Running the tests
 
